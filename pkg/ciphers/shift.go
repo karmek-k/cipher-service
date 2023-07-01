@@ -9,10 +9,10 @@ const UpperBoundLC = 'z'
 const LowerBoundUC = 'A'
 const UpperBoundUC = 'Z'
 
-const AlphabetLength = int(UpperBoundLC - LowerBoundUC)
+const AlphabetLength = int(UpperBoundLC - LowerBoundLC)
 
 func ShiftRune(input rune, shift int) (*rune, error) {
-	shift %= AlphabetLength
+	shift = DetermineShift(shift)
 
 	isASCII := input >= LowerBoundLC && input <= UpperBoundLC || input >= LowerBoundUC && input <= UpperBoundUC
 
@@ -23,4 +23,14 @@ func ShiftRune(input rune, shift int) (*rune, error) {
 	result := input + rune(shift)
 
 	return &result, nil
+}
+
+func DetermineShift(shift int) int {
+	shift %= AlphabetLength
+
+	if shift < 0 {
+		return shift + AlphabetLength
+	}
+
+	return shift
 }
